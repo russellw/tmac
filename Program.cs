@@ -119,11 +119,40 @@ namespace TMac
             }
         }
 
+        static bool IsBinary(string path)
+        {
+            var bytes = File.ReadAllBytes(path);
+            foreach (var b in bytes)
+                if (b == 0)
+                    return true;
+            return false;
+        }
+
         static void Main(string[] args)
         {
             Parse(args);
             foreach (var file in Files)
             {
+                if (IsBinary(file))
+                {
+                    Console.WriteLine("{0}: binary file", file);
+                    continue;
+                }
+                var lines = File.ReadAllLines(file);
+                var old = lines.ToArray();
+                Mac.Process(file, lines);
+                var changed = false;
+                for (int i = 0; i < lines.Length; i++)
+                    if (lines[i] != old[i])
+                    {
+                        changed = true;
+                        break;
+                    }
+                if (changed)
+                {
+                    File.WriteAllLines(file, lines);
+                    Console.WriteLine(file);
+                }
             }
             if (Debugger.IsAttached)
                 Console.ReadKey();
