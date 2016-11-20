@@ -8,7 +8,7 @@ Usage:
 tmac [options] <files>
 ```
 
-Options
+Options:
 
 ```
 -b
@@ -19,3 +19,9 @@ Use built-in macros:
 Macro|Meaning
 ---|---
 $file|Filename minus extension
+
+```
+-ci
+```
+
+Culture-invariant regex match. https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx#Invariant
