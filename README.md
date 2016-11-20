@@ -27,5 +27,5 @@ And more      | With an escaped '\|'         ||
 [Prototype table]
 
 |Macro|Meaning
--|-
+---|---
 $file|Filename minus extension
