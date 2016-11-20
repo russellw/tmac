@@ -1,7 +1,21 @@
-Trivial macro processor
+## Tiny macro processor
 
-At the moment, TMac has exactly one feature:
+Macro substitution on text files, with built-in macros or specified regular expressions.
 
-In each file on which it is run, any occurrence of `$file` will be replaced with the name of the file, minus extension.
+Usage:
 
-More features may be added in due course.
+```
+tmac [options] <files>
+```
+
+Options
+
+```
+-b
+```
+
+Use built-in macros:
+
+Macro|Meaning
+-|-
+$file|Filename minus extension
