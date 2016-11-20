@@ -24,7 +24,7 @@ $file|Filename minus extension
 -ci
 ```
 
-Culture-invariant regex match.
+Culture-invariant regex match as in:
 
 https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx#Invariant
 
