@@ -16,6 +16,6 @@ Options
 
 Use built-in macros:
 
-Macro|Meaning
+|Macro|Meaning
 -|-
 $file|Filename minus extension
