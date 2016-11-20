@@ -13,12 +13,18 @@ namespace TMac
     {
         static void Help()
         {
+            Console.WriteLine("Tiny macro processor");
+            Console.WriteLine("tmac [options] <files>");
+            Console.WriteLine();
             Console.WriteLine("Options:");
             Console.WriteLine();
-            Console.WriteLine("-help     Show help");
-            Console.WriteLine("-version  Show version");
+            Console.WriteLine("-help                       Show help");
+            Console.WriteLine("-version                    Show version");
             Console.WriteLine();
-            Console.WriteLine("@file     Read args from response file");
+            Console.WriteLine("-r <pattern> <replacement>  Replace text");
+            Console.WriteLine("                            Pattern is a regular expression");
+            Console.WriteLine();
+            Console.WriteLine("@file                       Read args from response file");
         }
 
         static void Version()
@@ -110,6 +116,15 @@ namespace TMac
                     case "version":
                         Version();
                         Environment.Exit(0);
+                        break;
+                    case "r":
+                        if (++i >= args.Length)
+                            throw new IOException("-r: Expected pattern");
+                        var pattern = args[i];
+                        if (++i >= args.Length)
+                            throw new IOException("-r: Expected replacement");
+                        var replacement = args[i];
+                        Mac.Replacements.Add(new KeyValuePair<string, string>(pattern, replacement));
                         break;
                     default:
                         throw new IOException(args[i] + ": Unknown option");
