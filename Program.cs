@@ -28,6 +28,7 @@ namespace TMac
             Console.WriteLine("-ci                         Culture-invariant regex match");
             Console.WriteLine("-i                          Ignore case");
             Console.WriteLine("-r <pattern> <replacement>  Replace text");
+            Console.WriteLine("-t                          Show temp folder");
             Console.WriteLine();
             Console.WriteLine("@file                       Read args from response file");
         }
@@ -139,6 +140,10 @@ namespace TMac
                             throw new IOException("-r: Expected replacement");
                         var replacement = args[i];
                         Mac.Replacements.Add(new KeyValuePair<string, string>(pattern, replacement));
+                        break;
+                    case "t":
+                        Console.WriteLine(Path.GetTempPath());
+                        Environment.Exit(0);
                         break;
                     default:
                         throw new IOException(args[i] + ": Unknown option");

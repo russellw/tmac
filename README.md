@@ -45,6 +45,12 @@ https://msdn.microsoft.com/en-us/library/az24scfc(v=vs.110).aspx
 This option can be used more than once.
 
 ```
+-t
+```
+
+Show the temporary folder to which original versions of changed files will be moved.
+
+```
 @file
 ```
 
