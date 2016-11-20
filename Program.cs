@@ -25,6 +25,7 @@ namespace TMac
             Console.WriteLine("-version                    Show version");
             Console.WriteLine();
             Console.WriteLine("-b                          Use builtin macros");
+            Console.WriteLine("-ci                         Culture-invariant regex match");
             Console.WriteLine("-i                          Ignore case");
             Console.WriteLine("-r <pattern> <replacement>  Replace text");
             Console.WriteLine();
@@ -123,6 +124,9 @@ namespace TMac
                         break;
                     case "b":
                         Mac.UseBuiltin = true;
+                        break;
+                    case "ci":
+                        Mac.Options |= RegexOptions.CultureInvariant;
                         break;
                     case "i":
                         Mac.Options |= RegexOptions.IgnoreCase;

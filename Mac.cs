@@ -14,14 +14,14 @@ namespace TMac
         public static bool UseBuiltin;
         public static RegexOptions Options = RegexOptions.None;
 
-        public static void Process(string file, string[] lines)
+        public static void Process(string filename, string[] lines)
         {
-            file = Path.GetFileNameWithoutExtension(file);
+            filename = Path.GetFileNameWithoutExtension(filename);
             for (int i = 0; i < lines.Length; i++)
             {
                 if (UseBuiltin)
                 {
-                    lines[i] = lines[i].Replace("$file", file);
+                    lines[i] = lines[i].Replace("$file", filename);
                 }
                 foreach (var r in Replacements)
                 {
