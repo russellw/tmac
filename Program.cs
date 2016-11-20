@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TMac
@@ -23,6 +24,7 @@ namespace TMac
             Console.WriteLine("-help                       Show help");
             Console.WriteLine("-version                    Show version");
             Console.WriteLine();
+            Console.WriteLine("-i                          Ignore case");
             Console.WriteLine("-n                          No predefined macros");
             Console.WriteLine("-r <pattern> <replacement>  Replace text");
             Console.WriteLine();
@@ -118,6 +120,9 @@ namespace TMac
                     case "version":
                         Version();
                         Environment.Exit(0);
+                        break;
+                    case "i":
+                        Mac.Options |= RegexOptions.IgnoreCase;
                         break;
                     case "n":
                         Mac.UsePredefined = false;

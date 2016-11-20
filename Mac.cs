@@ -12,6 +12,7 @@ namespace TMac
     {
         public static List<KeyValuePair<string, string>> Replacements = new List<KeyValuePair<string, string>>();
         public static bool UsePredefined = true;
+        public static RegexOptions Options = RegexOptions.None;
 
         public static void Process(string file, string[] lines)
         {
@@ -20,7 +21,7 @@ namespace TMac
             {
                 foreach (var r in Replacements)
                 {
-                    lines[i] = Regex.Replace(lines[i], r.Key, r.Value);
+                    lines[i] = Regex.Replace(lines[i], r.Key, r.Value, Options);
                 }
                 if (UsePredefined)
                     lines[i] = lines[i].Replace("$file", file);
