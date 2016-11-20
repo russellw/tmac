@@ -14,6 +14,8 @@ namespace TMac
         static void Help()
         {
             Console.WriteLine("Tiny macro processor");
+            Console.WriteLine("https://github.com/russellw/tmac");
+            Console.WriteLine();
             Console.WriteLine("tmac [options] <files>");
             Console.WriteLine();
             Console.WriteLine("Options:");
@@ -144,6 +146,19 @@ namespace TMac
             return false;
         }
 
+        static void Remove(string source)
+        {
+            var dest = Path.Combine(Path.GetTempPath(), Path.GetFileName(source));
+            try
+            {
+                File.Delete(dest);
+                File.Move(source, dest);
+            }
+            catch (IOException)
+            {
+            }
+        }
+
         static void Main(string[] args)
         {
             try
@@ -168,6 +183,7 @@ namespace TMac
                         }
                     if (changed)
                     {
+                        Remove(filename);
                         File.WriteAllLines(filename, lines);
                         Console.WriteLine(filename);
                     }
