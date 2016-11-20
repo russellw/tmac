@@ -9,6 +9,8 @@ namespace TMac
 {
     static class Mac
     {
+        public static List<KeyValuePair<string, string>> Replacements = new List<KeyValuePair<string, string>>();
+
         public static void Process(string file, string[] lines)
         {
             file = Path.GetFileNameWithoutExtension(file);

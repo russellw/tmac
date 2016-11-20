@@ -27,35 +27,35 @@ namespace TMac
             Console.WriteLine("{0} {1}", assemblyName.Name, assemblyName.Version.ToString(1));
         }
 
-        static List<string> Files = new List<string>();
+        static List<string> Filenames = new List<string>();
 
         static void Expand(string s)
         {
             // Unix shells have already expanded wild cards 
             if (Path.DirectorySeparatorChar == '/')
             {
-                Files.Add(s);
+                Filenames.Add(s);
                 return;
             }
 
             // Not a wild card
             if (!s.Contains("*") && !s.Contains("?"))
             {
-                Files.Add(s);
+                Filenames.Add(s);
                 return;
             }
 
             // Current directory
             if (!s.Contains("\\"))
             {
-                Files.AddRange(Directory.GetFiles(".", s));
+                Filenames.AddRange(Directory.GetFiles(".", s));
                 return;
             }
 
             // Other directory
             var path = Path.GetDirectoryName(s);
             var pattern = Path.GetFileName(s);
-            Files.AddRange(Directory.GetFiles(path, pattern));
+            Filenames.AddRange(Directory.GetFiles(path, pattern));
         }
 
         static void Parse(string[] args)
@@ -112,16 +112,14 @@ namespace TMac
                         Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("{0}: Unknown option", args[i]);
-                        Environment.Exit(1);
-                        break;
+                        throw new IOException(args[i] + ": Unknown option");
                 }
             }
         }
 
-        static bool IsBinary(string path)
+        static bool IsBinary(string filename)
         {
-            var bytes = File.ReadAllBytes(path);
+            var bytes = File.ReadAllBytes(filename);
             foreach (var b in bytes)
                 if (b == 0)
                     return true;
@@ -130,29 +128,37 @@ namespace TMac
 
         static void Main(string[] args)
         {
-            Parse(args);
-            foreach (var file in Files)
+            try
             {
-                if (IsBinary(file))
+                Parse(args);
+                foreach (var filename in Filenames)
                 {
-                    Console.WriteLine("{0}: binary file", file);
-                    continue;
-                }
-                var lines = File.ReadAllLines(file);
-                var old = lines.ToArray();
-                Mac.Process(file, lines);
-                var changed = false;
-                for (int i = 0; i < lines.Length; i++)
-                    if (lines[i] != old[i])
+                    if (IsBinary(filename))
                     {
-                        changed = true;
-                        break;
+                        Console.WriteLine("{0}: binary file", filename);
+                        continue;
                     }
-                if (changed)
-                {
-                    File.WriteAllLines(file, lines);
-                    Console.WriteLine(file);
+                    var lines = File.ReadAllLines(filename);
+                    var old = lines.ToArray();
+                    Mac.Process(filename, lines);
+                    var changed = false;
+                    for (int i = 0; i < lines.Length; i++)
+                        if (lines[i] != old[i])
+                        {
+                            changed = true;
+                            break;
+                        }
+                    if (changed)
+                    {
+                        File.WriteAllLines(filename, lines);
+                        Console.WriteLine(filename);
+                    }
                 }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+                Environment.Exit(1);
             }
             if (Debugger.IsAttached)
                 Console.ReadKey();
